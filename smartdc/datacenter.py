@@ -66,7 +66,8 @@ class DataCenter(object):
     
     def __init__(self, location=None, key_id=None, secret='~/.ssh/id_rsa', 
                 headers=None, login=None, known_locations=None,
-                allow_agent=False, verify=True, verbose=None):
+                allow_agent=False, verify=True, verbose=None,
+                password=None):
         """
         A :py:class:`smartdc.datacenter.DataCenter` object may be instantiated 
         without any parameters, but practically speaking, the `key_id` and 
@@ -123,6 +124,8 @@ class DataCenter(object):
         if key_id and secret:
             self.auth = HTTPSignatureAuth(key_id=key_id, secret=secret,
                 allow_agent=allow_agent)
+        elif login and password:
+            self.auth = (login, password)
         else:
             self.auth = None
         self.default_headers = DEFAULT_HEADERS
