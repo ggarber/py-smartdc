@@ -62,11 +62,11 @@ class DataCenter(object):
     requests it, and only accesses the REST API on method calls (never on 
     attribute access).
     """
-    API_VERSION = '7.0'
+    DEFAULT_API_VERSION = '7.0'
     
     def __init__(self, location=None, key_id=None, secret='~/.ssh/id_rsa', 
                 headers=None, login=None, known_locations=None,
-                allow_agent=False, verify=True, verbose=None):
+                allow_agent=False, verify=True, verbose=None, api_version=None):
         """
         A :py:class:`smartdc.datacenter.DataCenter` object may be instantiated 
         without any parameters, but practically speaking, the `key_id` and 
@@ -126,7 +126,7 @@ class DataCenter(object):
         else:
             self.auth = None
         self.default_headers = DEFAULT_HEADERS
-        self.default_headers['X-Api-Version'] = self.API_VERSION
+        self.default_headers['X-Api-Version'] = api_version or self.DEFAULT_API_VERSION
         if headers:
             self.default_headers.update(headers)
         if login:
