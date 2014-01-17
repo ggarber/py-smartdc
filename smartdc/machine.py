@@ -291,7 +291,20 @@ class Machine(object):
         action = {'action': 'reboot'}
         j, r = self.datacenter.request('POST', self.path, params=action)
         r.raise_for_status()
-    
+        
+    def clone(self):
+        """
+        ::
+        
+            POST /:login/machines/:id?action=clone
+        
+        Initiate cloning of the remote machine.
+        """
+        action = {'action': 'clone'}
+        j, r = self.datacenter.request('POST', self.path, params=action)
+        r.raise_for_status()
+        return Machine(datacenter=self.datacenter, data=j)
+
     def resize(self, package):
         """
         ::
